@@ -1,21 +1,31 @@
+#include "std_lib_facilities.h"
+#include <iostream>
+using namespace std;
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <unistd.h>
+#include <sys/ioctl.hu>
 #include <unistd.h>
 int
 main (void)
 {
     int xj = 1, xk = 1, yj = 1, yk = 1;
-    int mx = 80 * 2, my = 24 * 2;
+    int mx;
+    int my;
 
     WINDOW *ablak;
     ablak = initscr ();
     noecho ();
     cbreak ();
     nodelay (ablak, true);
-    
+
     for (;;)
     {
+	struct windsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	mx=w.ws_col * 2, my = w.ws_row * 2;
+
         xj = (xj - 1) % mx;
         xk = (xk + 1) % mx;
 
