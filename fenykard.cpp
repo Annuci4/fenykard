@@ -179,12 +179,15 @@ int main(int argc, char *argv[])
      " the name of a subdirectory of the FUTURE activity tree to be processed by this program. The default value is City/Debrecen/Oktatás/Informatika/Programozás/DEIK/Prog1/Példák/Előadás")
     ("db", boost::program_options::value< std::string > (),
      " the name of a  database dump CSV file. There is no default value for this option.")
+    ("name" , boost::program_options::value< std::string > (), "name")
     ;
 
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
     boost::program_options::notify(vm);
 
+   
+    
     if (vm.count("version")) {
         std::cout << "FUTURE DEBRECEN, UDProg1/DeacH Lightsaber, f9ls.0.0.4" << std::endl
         << "Copyright (C) 2018 Norbert Bátfai\n" << std::endl
@@ -205,6 +208,10 @@ int main(int argc, char *argv[])
     if (vm.count("root"))
         subtree.assign(vm["root"].as < std::string > ());
 
+ std::string nev;
+    if (vm.count("name"))
+        nev.assign(vm["name"].as < std::string > ());
+std::cout<<nev<<std::endl;
     // If you use this sample you should add your copyright information here too:
     /*
     std::cout << "This Prog1 Lightsaber has been modified by <Your Name>" << std::endl
@@ -229,9 +236,9 @@ int main(int argc, char *argv[])
         // See also https://www.twitch.tv/videos/232384581 that introduces the difference between the traditional grading scale and an alternative one
 
         std::vector<std::pair<std::string, int>> res = sort_map(rank);
-
+    
         for (auto & i : res)
-            std::cout << i.first << " "  << i.second << std::endl;
-
-    }
+		if (i.first==nev)
+           		std::cout << i.first << " "<< i.second << std::endl;
+ } 
 }
